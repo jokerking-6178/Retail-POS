@@ -12,28 +12,34 @@ import OrderHistory from './pages/OrderHistory/OrderHistory'
 import { AppContext } from './context/AppContext'
 import NotFound from './pages/NotFound/NotFound'
 
+// Defined outside App so they keep the same identity across renders;
+// otherwise every context update remounts the page and wipes its state.
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const { auth } = useContext(AppContext)
+
+  if (!auth?.token) {
+    return <Navigate to="/login" replace />
+  }
+
+  if (allowedRoles && !allowedRoles.includes(auth.role)) {
+    return <Navigate to="/dashboard" replace />
+  }
+
+  return children
+}
+
+const LoginRoute = ({ children }) => {
+  const { auth } = useContext(AppContext)
+
+  if (auth?.token) {
+    return <Navigate to="/dashboard" replace />
+  }
+  return children
+}
+
 const App = () => {
   const location = useLocation()
   const { auth } = useContext(AppContext)
-
-  const ProtectedRoute = ({ children, allowedRoles }) => {
-    if (!auth?.token) {
-      return <Navigate to="/login" replace />
-    }
-
-    if (allowedRoles && !allowedRoles.includes(auth.role)) {
-      return <Navigate to="/dashboard" replace />
-    }
-
-    return children
-  }
-
-  const LoginRoute = ({ children }) => {
-    if (auth?.token) {
-      return <Navigate to="/dashboard" replace />
-    }
-    return children
-  }
 
   return (
     <>

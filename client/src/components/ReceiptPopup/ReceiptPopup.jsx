@@ -20,6 +20,11 @@ const ReceiptPopup = ({orderDetails, onClose, onPrint}) => {
         <p>
           <strong>Phone:</strong> {orderDetails.phoneNumber}
         </p>
+        {orderDetails.createdAt && (
+          <p>
+            <strong>Date:</strong> {new Date(orderDetails.createdAt).toLocaleString()}
+          </p>
+        )}
         <hr className="my-3" />
         <h5 className="mb-3">Items Ordered</h5>
         <div className="cart-items-scrollable">
@@ -65,7 +70,7 @@ const ReceiptPopup = ({orderDetails, onClose, onPrint}) => {
           )
         }
         <div className="d-flex justify-content-end gap-3 mt-4">
-          <button className="btn btn-warning" onClick={onPrint}>Print Recepit</button>
+          <button className="btn btn-warning" onClick={onPrint}>Print Receipt</button>
           <button className="btn btn-danger" onClick={onClose}>Close</button>
         </div>
       </div>

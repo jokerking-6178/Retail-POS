@@ -12,6 +12,7 @@ const CartSummary = ({customerName, mobileNumber, setCustomerName , setMobileNum
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState(null)
   const [showPopup, setShowPopup] = useState(false)
+  const [paymentMode, setPaymentMode] = useState(null)
 
   const totalAmout = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
   const tax = totalAmout * 0.01
@@ -20,12 +21,19 @@ const CartSummary = ({customerName, mobileNumber, setCustomerName , setMobileNum
   const clearAll = () => {
     setCustomerName("")
     setMobileNumber("")
+    setPaymentMode(null)
     clearCart()
   }
 
-  const placeOrder = () => {
+  const showReceipt = (order) => {
+    setOrderDetails(order)
     setShowPopup(true)
     clearAll()
+  }
+
+  const closeReceipt = () => {
+    setShowPopup(false)
+    setOrderDetails(null)
   }
 
   const handlerPrintReceipt = () => {
@@ -51,9 +59,15 @@ const CartSummary = ({customerName, mobileNumber, setCustomerName , setMobileNum
     }
   }
 
-  const completePayment = async (paymentMode) => {
+  const completePayment = async () => {
+    if(!paymentMode){
+      toast.error("please select a payment method")
+      return
+    }
+
     if(!customerName || !mobileNumber){
       toast.error("please enter customer details")
+      return
     }
 
     if(cartItems.length === 0){
@@ -74,8 +88,8 @@ const CartSummary = ({customerName, mobileNumber, setCustomerName , setMobileNum
       const response = await createOrder(orderData)
       const savedData = response.data
       if(response.status === 201 && paymentMode === "cash"){
-        toast.success("Cash Recevied")
-        setOrderDetails(response.data)
+        toast.success("Cash Received")
+        showReceipt(savedData)
       }else if(response.status === 201 && paymentMode === "upi"){
         const razorpayLoaded = await loadRazorpayScript(paymentMode)
         if(!razorpayLoaded){
@@ -134,15 +148,8 @@ const CartSummary = ({customerName, mobileNumber, setCustomerName , setMobileNum
     try {
       const paymentResponse = await verifyPayment(paymentData)
       if(paymentResponse.status === 200){
-        toast.success("payment successfull")
-        setOrderDetails({
-          ...savedOrder,
-          paymentDetails: {
-            razorpayOrderId: paymentResponse.razorpay_order_id,
-            razorpayPaymentId: paymentResponse.razorpay_payment_id,
-            razorpaySignature: paymentResponse.razorpay_signature
-          },
-        })
+        toast.success("payment successful")
+        showReceipt(paymentResponse.data)
       }else{
         toast.error("payment processing failed")
       }
@@ -170,27 +177,27 @@ const CartSummary = ({customerName, mobileNumber, setCustomerName , setMobileNum
       </div>
 
       <div className="d-flex gap-3">
-        <button className="btn btn-success flex-grow-1" onClick={() => completePayment("cash")} disabled={isProcessing}>
-          {isProcessing ? "Processing..." : "Cash"}
+        <button className={`btn flex-grow-1 ${paymentMode === "cash" ? "btn-success" : "btn-outline-success"}`} onClick={() => setPaymentMode("cash")} disabled={isProcessing}>
+          {paymentMode === "cash" && <i className="bi bi-check-circle me-1"></i>}Cash
         </button>
-        <button className="btn btn-primary flex-grow-1" onClick={() => completePayment("upi")} disabled={isProcessing}>
-          {isProcessing ? "Processing..." : "Upi"}
+        <button className={`btn flex-grow-1 ${paymentMode === "upi" ? "btn-primary" : "btn-outline-primary"}`} onClick={() => setPaymentMode("upi")} disabled={isProcessing}>
+          {paymentMode === "upi" && <i className="bi bi-check-circle me-1"></i>}Upi
         </button>
       </div>
       <div className="d-flex gap-3 mt-3">
-        <button className="btn btn-warning flex-grow-1" onClick={placeOrder} disabled={isProcessing || !orderDetails}>
-          Place Order
+        <button className="btn btn-warning flex-grow-1" onClick={completePayment} disabled={isProcessing || !paymentMode || cartItems.length === 0}>
+          {isProcessing ? "Processing..." : "Place Order"}
         </button>
       </div>
       {
-        showPopup && (
+        showPopup && orderDetails && (
           <ReceiptPopup 
             orderDetails={{
               ...orderDetails,
               razorpayOrderId: orderDetails.paymentDetails?.razorpayOrderId,
               razorpayPaymentId: orderDetails.paymentDetails?.razorpayPaymentId,
             }} 
-            onClose={() => setShowPopup(false)} 
+            onClose={closeReceipt}
             onPrint={handlerPrintReceipt}
           />
         )

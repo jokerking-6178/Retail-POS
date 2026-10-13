@@ -1,4 +1,32 @@
 @media print{
+    body * {
+        visibility: hidden;
+    }
+
+    .reciept-popup, .reciept-popup * {
+        visibility: visible;
+    }
+
+    .receipt-popup-overlay {
+        background-color: transparent;
+    }
+
+    .reciept-popup {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        max-width: 100%;
+        max-height: none;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .reciept-popup .cart-items-scrollable {
+        max-height: none;
+        overflow: visible;
+    }
+
     .reciept-popup .btn{
         display: none;
     }

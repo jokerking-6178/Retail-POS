@@ -12,11 +12,11 @@ export const AppContextProvider = (props) => {
     const [cartItems, setCartItems] = useState([])
 
     const addToCart = (item) => {
-        const existingItem = cartItems.find(cartItem => cartItem.name === item.name)
+        const existingItem = cartItems.find(cartItem => cartItem.itemId === item.itemId)
         if(existingItem){
-            setCartItems(cartItems.map(cartItem => cartItem.name === item.name ? {...cartItem, quanity: cartItem.quanity + 1} : cartItem))
+            setCartItems(cartItems.map(cartItem => cartItem.itemId === item.itemId ? {...cartItem, quantity: cartItem.quantity + 1} : cartItem))
         }else{
-            setCartItems([...cartItems, {...item, quanity: 1}])
+            setCartItems([...cartItems, {...item, quantity: 1}])
         }
     }
 

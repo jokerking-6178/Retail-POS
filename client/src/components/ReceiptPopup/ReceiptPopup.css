@@ -23,7 +23,7 @@
 }
 
 .cart-items-scrollable {
-    max-width: 200px;
+    max-height: 200px;
     overflow-y: auto;
     margin-bottom: 16px;
 }
