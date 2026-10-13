@@ -1,4 +1,18 @@
-# Retail POS — Retailing & Inventory Manager
+<div align="center">
+
+# 🛒 Retail POS
+
+### A Full-Stack Point-of-Sale & Inventory Management System
+
+[![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![AWS S3](https://img.shields.io/badge/AWS_S3-Storage-FF9900?style=for-the-badge&logo=amazons3&logoColor=white)](https://aws.amazon.com/s3/)
+[![Razorpay](https://img.shields.io/badge/Razorpay-Payments-02042B?style=for-the-badge&logo=razorpay&logoColor=white)](https://razorpay.com/)
+
+</div>
 
 A full-stack point-of-sale and inventory management app for small retail shops. Staff can browse products, build a cart, take payment in cash or UPI (via Razorpay), and print a receipt. Admins also manage the product catalog, categories, and staff accounts, and see daily sales on a dashboard.
 
@@ -276,13 +290,39 @@ The API base URL is set in [client/src/Service/apiConfig.js](client/src/Service/
 
 ---
 
+## Roadmap
+
+- [ ] Server-side Razorpay signature verification and role checks on admin endpoints
+- [ ] Stock quantities with low-stock alerts
+- [ ] Barcode scanning for faster checkout
+- [ ] PDF receipt generation and email delivery
+- [ ] Multi-store / multi-branch support
+- [ ] Docker Compose setup for one-command local deployment
+
+---
+
+## Contributing
+
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push to your fork and open a pull request against `main`.
+
+---
+
 ## Author
 
-**&lt;Your Name&gt;** — Full-Stack Developer (Java · Spring Boot · React)
+**Shubham Garg** — Full-Stack Developer (Java · Spring Boot · React)
 
 - GitHub: [@jokerking-6178](https://github.com/jokerking-6178)
-- LinkedIn: [linkedin.com/in/&lt;your-profile&gt;](https://www.linkedin.com/in/your-profile)
-- Portfolio: [&lt;your-portfolio-url&gt;](https://your-portfolio-url)
-- Email: &lt;your-email@example.com&gt;
+- Project: [Retail-POS](https://github.com/jokerking-6178/Retail-POS)
 
-If you found this project useful, consider giving it a ⭐ on GitHub. Feedback and pull requests are welcome.
+---
+
+<div align="center">
+
+Built with ❤️ using Spring Boot, React, and Razorpay
+
+⭐ Star this repo if you found it useful!
+
+</div>
